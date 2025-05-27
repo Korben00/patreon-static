@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authenticating with Patreon...</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid #e5e5e5;
+            border-top-color: #FF424D;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 24px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        
+        .message {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+        
+        .error {
+            color: #c00;
+            background-color: #fee;
+            border: 1px solid #fcc;
+            border-radius: 4px;
+            padding: 12px 24px;
+            margin-top: 16px;
+            display: none;
+        }
+        
+        .error.show {
+            display: block;
+        }
+        
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 24px;
+            opacity: 0.1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <svg class="logo" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+        </svg>
+        
+        <div class="spinner"></div>
+        <h1 class="title">Authenticating with Patreon</h1>
+        <p class="message">Please wait while we complete your login...</p>
+        <div class="error" id="error"></div>
+    </div>
+    
+    <script>
+        // This script handles the OAuth callback
+        // It's intentionally minimal to work without dependencies
+        
+        function showError(message) {
+            document.getElementById('error').textContent = message;
+            document.getElementById('error').classList.add('show');
+            document.querySelector('.spinner').style.display = 'none';
+        }
+        
+        // Check if PatreonStatic is loaded
+        if (typeof window.patreonStatic === 'undefined') {
+            // If not loaded, wait for it or handle manually
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            
+            if (error) {
+                showError(`Authentication failed: ${error}`);
+            } else if (!urlParams.get('code')) {
+                showError('No authorization code received');
+            } else {
+                // Store the URL params for when PatreonStatic loads
+                sessionStorage.setItem('patreon_callback_params', window.location.search);
+                
+                // Try to redirect to home page where PatreonStatic should be loaded
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1000);
+            }
+        }
+        
+        // If we're still here after 10 seconds, show an error
+        setTimeout(() => {
+            if (document.querySelector('.spinner').style.display !== 'none') {
+                showError('Authentication timeout. Please try again.');
+            }
+        }, 10000);
+    </script>
+</body>
+</html>

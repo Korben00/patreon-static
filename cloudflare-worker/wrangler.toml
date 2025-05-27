@@ -1,0 +1,44 @@
+# Cloudflare Worker Configuration for Patreon OAuth
+# 
+# This file configures the Cloudflare Worker that handles Patreon OAuth.
+# Copy this file and update the values for your own deployment.
+
+name = "patreon-oauth-worker"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# Environment variables (set these in Cloudflare dashboard or via wrangler secret)
+# [vars]
+# ALLOWED_ORIGINS = "https://yourdomain.com"
+# REDIRECT_URI = "https://yourdomain.com/patreon-callback"
+# PATREON_CAMPAIGN_ID = "your-campaign-id"
+# PATREON_CREATOR_ID = "your-creator-id"
+
+# Secrets (set via: wrangler secret put SECRET_NAME)
+# Required secrets:
+# - PATREON_CLIENT_ID
+# - PATREON_CLIENT_SECRET
+
+# Routes (optional - can also be configured in Cloudflare dashboard)
+# routes = [
+#   { pattern = "oauth.yourdomain.com/*", zone_name = "yourdomain.com" }
+# ]
+
+# KV Namespaces (optional - for caching/session management)
+# [[kv_namespaces]]
+# binding = "PATREON_CACHE"
+# id = "your-kv-namespace-id"
+
+# Development settings
+[dev]
+port = 8787
+local_protocol = "http"
+
+# Environment-specific configurations
+[env.production]
+name = "patreon-oauth-worker-prod"
+# vars = { ALLOWED_ORIGINS = "https://yourdomain.com" }
+
+[env.staging]
+name = "patreon-oauth-worker-staging"
+# vars = { ALLOWED_ORIGINS = "https://staging.yourdomain.com" }

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patreon Static - Basic HTML Example</title>
+    
+    <!-- Patreon Static CSS -->
+    <link rel="stylesheet" href="../../client/patreon-static.css">
+    
+    <!-- Custom styles for demo -->
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        main {
+            padding: 40px 0;
+        }
+        
+        .hero {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .hero h1 {
+            margin: 0 0 20px;
+            font-size: 36px;
+            color: #333;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .card h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .ad {
+            background-color: #ffe5e5;
+            border: 2px dashed #ff424d;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            color: #ff424d;
+            font-weight: bold;
+        }
+        
+        .status-info {
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .status-info h3 {
+            margin-top: 0;
+        }
+        
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">My Static Site</div>
+                <button data-patreon-login>Login with Patreon</button>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="hero">
+                <h1>Welcome to Patreon Static Demo</h1>
+                <p>This example shows how to integrate Patreon authentication into a basic HTML site.</p>
+            </div>
+            
+            <div class="status-info">
+                <h3>Current Status</h3>
+                <div id="status-message">
+                    <p>You are not logged in. Click the "Login with Patreon" button to authenticate.</p>
+                </div>
+            </div>
+            
+            <div class="content-grid">
+                <div class="card">
+                    <h2>Free Content</h2>
+                    <p>This content is available to everyone, whether they're logged in or not.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+                
+                <div class="card ad">
+                    <p>ADVERTISEMENT</p>
+                    <p>This ad will be hidden for paying Patreon members!</p>
+                </div>
+                
+                <div class="card">
+                    <h2>Member Benefits</h2>
+                    <p>When you log in as a paying Patreon member:</p>
+                    <ul>
+                        <li>All ads will be automatically removed</li>
+                        <li>You'll see a personalized welcome message</li>
+                        <li>Your membership status will be displayed</li>
+                    </ul>
+                </div>
+                
+                <div class="card ad">
+                    <p>ANOTHER AD</p>
+                    <p>Paying patrons won't see this!</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Implementation Details</h2>
+                <p>This page demonstrates:</p>
+                <ul>
+                    <li>Basic authentication flow</li>
+                    <li>Automatic ad removal for patrons</li>
+                    <li>User status display</li>
+                    <li>Persistent login sessions</li>
+                </ul>
+                <p>View the source code to see how it's implemented!</p>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Patreon Static JavaScript -->
+    <script src="../../client/patreon-static.js"></script>
+    
+    <!-- Initialize Patreon Static -->
+    <script>
+        // Initialize with your configuration
+        let patreonStatic;
+        try {
+            patreonStatic = new PatreonStatic({
+            // IMPORTANT: Replace these with your own values!
+            workerUrl: 'https://your-worker.workers.dev',
+            clientId: 'your-patreon-client-id',
+            campaignId: 'your-campaign-id', 
+            creatorId: 'your-creator-id',
+            
+            // Optional callbacks
+            onLogin: function(userData) {
+                console.log('User logged in:', userData);
+                updateStatusDisplay(userData);
+            },
+            
+            onLogout: function() {
+                console.log('User logged out');
+                updateStatusDisplay(null);
+            },
+            
+            onError: function(error) {
+                console.error('Authentication error:', error);
+                alert('Authentication failed: ' + error);
+            },
+            
+            // Enable debug mode for development
+            debug: true
+        });
+        } catch (error) {
+            console.error('Failed to initialize PatreonStatic:', error);
+            alert('Please configure PatreonStatic with your actual credentials. Check the console for details.');
+        }
+        
+        // Update status display based on authentication
+        function updateStatusDisplay(userData) {
+            const statusEl = document.getElementById('status-message');
+            
+            if (userData) {
+                const membershipEmoji = {
+                    'creator': '👑',
+                    'active_patron': '⭐',
+                    'declined_patron': '⚠️',
+                    'former_patron': '💔',
+                    'free_member': '👤',
+                    'none': '👤'
+                }[userData.membership_type] || '👤';
+                
+                statusEl.innerHTML = `
+                    <p><strong>Welcome, ${userData.user.full_name}!</strong></p>
+                    <p>Status: ${membershipEmoji} ${userData.membership_type.replace('_', ' ')}</p>
+                    <p>User ID: <code>${userData.user.id}</code></p>
+                    ${userData.is_paying_member ? 
+                        '<p style="color: green;">✅ Ads have been removed for you!</p>' : 
+                        '<p>Become a paying patron to remove ads and support our content!</p>'
+                    }
+                `;
+            } else {
+                statusEl.innerHTML = `
+                    <p>You are not logged in. Click the "Login with Patreon" button to authenticate.</p>
+                `;
+            }
+        }
+        
+        // Check authentication status on load
+        if (patreonStatic && patreonStatic.isAuthenticated()) {
+            updateStatusDisplay(patreonStatic.userData);
+        }
+    </script>
+</body>
+</html>

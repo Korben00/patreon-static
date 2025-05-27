@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authenticating with Patreon...</title>
+    <link rel="stylesheet" href="../../client/patreon-static.css">
+</head>
+<body>
+    <div class="patreon-callback-container">
+        <div class="patreon-callback-spinner"></div>
+        <h1 class="patreon-callback-title">Authenticating with Patreon</h1>
+        <p class="patreon-callback-message">Please wait while we complete your login...</p>
+    </div>
+    
+    <script src="../../client/patreon-static.js"></script>
+    <script>
+        // The callback will be handled automatically by PatreonStatic
+        const patreonStatic = new PatreonStatic({
+            workerUrl: 'https://your-worker.workers.dev',
+            clientId: 'your-patreon-client-id',
+            campaignId: 'your-campaign-id',
+            creatorId: 'your-creator-id'
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+/**
+ * Patreon Static - Default styles
+ * 
+ * These styles provide a basic, customizable appearance for Patreon login elements.
+ * Override these styles in your own CSS to match your site's design.
+ */
+
+/* Login button styles */
+[data-patreon-login] {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #FF424D;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+[data-patreon-login]:hover {
+  background-color: #E03A42;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 66, 77, 0.3);
+}
+
+[data-patreon-login]:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(255, 66, 77, 0.3);
+}
+
+/* Authenticated button styles */
+[data-patreon-login].patreon-authenticated {
+  background-color: #1A1A1A;
+  color: white;
+}
+
+[data-patreon-login].patreon-authenticated:hover {
+  background-color: #2A2A2A;
+}
+
+/* User avatar in button */
+.patreon-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* User menu dropdown */
+.patreon-user-menu {
+  position: absolute;
+  background: white;
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  min-width: 250px;
+  z-index: 1000;
+  animation: patreon-menu-fade-in 0.2s ease;
+}
+
+@keyframes patreon-menu-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.patreon-menu-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+}
+
+.patreon-menu-header img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.patreon-menu-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #1A1A1A;
+}
+
+.patreon-menu-status {
+  font-size: 12px;
+  color: #666;
+  margin-top: 2px;
+}
+
+.patreon-menu-divider {
+  height: 1px;
+  background-color: #E5E5E5;
+  margin: 8px 0;
+}
+
+.patreon-menu-item {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  text-align: left;
+  font-size: 14px;
+  color: #1A1A1A;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.patreon-menu-item:hover {
+  background-color: #F5F5F5;
+}
+
+/* Loading states */
+[data-patreon-login].patreon-loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+[data-patreon-login].patreon-loading::after {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-left: 8px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: patreon-spin 0.8s linear infinite;
+}
+
+@keyframes patreon-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error state */
+.patreon-error {
+  padding: 12px 16px;
+  background-color: #FEE;
+  border: 1px solid #FCC;
+  border-radius: 4px;
+  color: #C00;
+  font-size: 14px;
+  margin: 16px 0;
+}
+
+/* Callback page styles */
+.patreon-callback-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.patreon-callback-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid #F5F5F5;
+  border-top-color: #FF424D;
+  border-radius: 50%;
+  animation: patreon-spin 0.8s linear infinite;
+  margin-bottom: 24px;
+}
+
+.patreon-callback-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 8px;
+}
+
+.patreon-callback-message {
+  font-size: 16px;
+  color: #666;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .patreon-user-menu {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    top: auto;
+    bottom: 16px;
+    width: auto;
+  }
+  
+  [data-patreon-login] {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+  
+  .patreon-avatar {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .patreon-user-menu {
+    background: #2A2A2A;
+    border-color: #3A3A3A;
+    color: white;
+  }
+  
+  .patreon-menu-name {
+    color: white;
+  }
+  
+  .patreon-menu-status {
+    color: #AAA;
+  }
+  
+  .patreon-menu-divider {
+    background-color: #3A3A3A;
+  }
+  
+  .patreon-menu-item {
+    color: white;
+  }
+  
+  .patreon-menu-item:hover {
+    background-color: #3A3A3A;
+  }
+}
+
+/* Accessibility improvements */
+[data-patreon-login]:focus,
+.patreon-menu-item:focus {
+  outline: 2px solid #FF424D;
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  [data-patreon-login],
+  .patreon-user-menu {
+    display: none !important;
+  }
+}
